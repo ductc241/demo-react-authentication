@@ -4,6 +4,8 @@ import useAuth from "../../hooks/useAuth";
 const Header = () => {
   const { isAuthenticated, user } = useAuth();
 
+  console.log(isAuthenticated, user);
+
   return (
     <div className="flex justify-between items-center py-3 px-5 bg-gray-200">
       <ul className="flex justify-between gap-10">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import userServices from "../../axios/user";
 
 const Profile = () => {

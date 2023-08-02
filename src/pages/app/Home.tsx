@@ -1,7 +1,7 @@
 import useAuth from "../../hooks/useAuth";
 
 const Home = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div>

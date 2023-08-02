@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import authServices from "./auth";
 
 axios.defaults.withCredentials = true

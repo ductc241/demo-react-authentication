@@ -1,7 +1,9 @@
 import { FormEvent, useState } from "react";
-import authServices from "../../axios/auth";
 import { useNavigate } from "react-router-dom";
 import { isAxiosError } from "axios";
+import toast from "react-hot-toast";
+
+import authServices from "../../axios/auth";
 import { IErrorResponse } from "../../interfaces/api";
 
 const LoginForm = () => {
@@ -14,7 +16,10 @@ const LoginForm = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!(email && password)) return;
+    if (!(email && password)) {
+      toast.error("Username and password are required");
+      return;
+    }
 
     try {
       const { data } = await authServices.login({ email, password });
@@ -22,11 +27,17 @@ const LoginForm = () => {
       localStorage.setItem("access_token", data.access_token);
       navigate("/");
     } catch (error) {
-      if (isAxiosError<IErrorResponse>(error)) {
-        console.log(error.response?.data.message);
-      } else {
+      if (!isAxiosError<IErrorResponse>(error)) {
         console.log(error);
+        return;
       }
+
+      if (error.code === "ERR_NETWORK") {
+        toast.error("Server Error");
+        return;
+      }
+
+      toast.error(`${error.response?.data.message}`);
     }
   };
 
@@ -51,7 +62,7 @@ const LoginForm = () => {
       </div>
 
       <button className="w-full py-3 bg-black text-white font-semibold text-center rounded-lg">
-        Log in with Google
+        Log in
       </button>
     </form>
   );
